@@ -24,11 +24,14 @@ USER springuser
 # Allow passing JVM options via environment variable JVM_OPTS
 ENV JVM_OPTS=""
 
-# Add image metadata
-LABEL org.opencontainers.image.source="https://github.com/<your-repo>"
+# Allow passing the JAR file name at runtime via an environment variable (APP_JAR)
+ENV APP_JAR="app.jar"
 
-# Support for custom entrypoint or command, JVM options, and app args
-ENTRYPOINT ["sh", "-c", "exec java $JVM_OPTS -jar /app/${APP_JAR_NAME} $@", "--"]
+# Allow passing the application name at runtime via an environment variable (APP_NAME)
+ENV APP_NAME="springboot-app"
+
+# Support for custom entrypoint or command, JVM options, app name, and app args
+ENTRYPOINT ["sh", "-c", "exec java $JVM_OPTS -jar /app/$APP_JAR --spring.application.name=$APP_NAME $@", "--"]
 
 # Example: To pass environment variables, use -e when running the container
 # docker run -e SPRING_PROFILES_ACTIVE=prod -e CUSTOM_ENV=foo -p 8080:8080 <image>

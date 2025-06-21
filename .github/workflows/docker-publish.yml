@@ -23,9 +23,6 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/springboot-docker:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/springboot-docker:${{ github.ref_name }}
-          build-args: |
-            JAR_FILE=target/your-app.jar
+            fkrafi/springboot-docker:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
