@@ -1,0 +1,36 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Build output
+target/
+build/
+
+# IDEs and editors
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Misc
+*.swp
+*.tmp
+node_modules/
+
+# Docker
+app.jar
+.dockerignore
+
+# GitHub Actions
+.github/
