@@ -32,16 +32,31 @@ Copy your JAR file to this directory or specify the path to your JAR file when b
 
 ### 3. Run the Container
 
-You can now specify the JAR file name at runtime using the `APP_JAR` environment variable, and the application name using the `APP_NAME` environment variable. The default JAR is `app.jar` and the default app name is `springboot-app`.
+You can now use a JAR from external storage by mounting it at runtime and specifying its path with the `APP_JAR` environment variable. The application name can also be set with `APP_NAME`.
+
+Example:
 
 ```sh
-docker run -e APP_JAR=myapp.jar -e APP_NAME=my-spring-app -e SPRING_PROFILES_ACTIVE=prod -p 8080:8080 fkrafi/springboot-docker:eclipse-temurin-21-jre
+docker run \
+  -v /path/to/external/myapp.jar:/myapp.jar \
+  -e APP_JAR=/myapp.jar \
+  -e APP_NAME=my-spring-app \
+  -e SPRING_PROFILES_ACTIVE=prod \
+  -p 8080:8080 \
+  fkrafi/springboot-docker:eclipse-temurin-21-jre
 ```
 
 You can also pass JVM options and application arguments:
 
 ```sh
-docker run -e APP_JAR=myapp.jar -e APP_NAME=my-spring-app -e JVM_OPTS="-Xms256m -Xmx512m" -p 8080:8080 fkrafi/springboot-docker:eclipse-temurin-21-jre --spring.config.location=/app/config/
+docker run \
+  -v /path/to/external/myapp.jar:/myapp.jar \
+  -e APP_JAR=/myapp.jar \
+  -e APP_NAME=my-spring-app \
+  -e JVM_OPTS="-Xms256m -Xmx512m" \
+  -p 8080:8080 \
+  fkrafi/springboot-docker:eclipse-temurin-21-jre \
+  --spring.config.location=/app/config/
 ```
 
 ---
@@ -71,10 +86,12 @@ services:
   app:
     image: fkrafi/springboot-docker:eclipse-temurin-21-jre
     environment:
-      APP_JAR: myapp.jar
+      APP_JAR: /myapp.jar
       APP_NAME: my-spring-app
       SPRING_PROFILES_ACTIVE: prod
       CUSTOM_ENV: foo
+    volumes:
+      - /path/to/external/myapp.jar:/myapp.jar
     ports:
       - "8080:8080"
     restart: unless-stopped

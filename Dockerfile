@@ -2,16 +2,11 @@
 FROM eclipse-temurin:21-jre
 
 # Set build arguments for flexibility
-ARG JAR_FILE=app.jar
-ARG APP_JAR_NAME=app.jar
 ARG APP_USER_UID=10001
 ARG APP_USER_GID=10001
 
 # Set the working directory
 WORKDIR /app
-
-# Copy the built jar file into the container using the build argument
-COPY ${JAR_FILE} /app/${APP_JAR_NAME}
 
 # Expose the default Spring Boot port
 EXPOSE 8080
@@ -31,7 +26,7 @@ ENV APP_JAR="app.jar"
 ENV APP_NAME="springboot-app"
 
 # Support for custom entrypoint or command, JVM options, app name, and app args
-ENTRYPOINT ["sh", "-c", "exec java $JVM_OPTS -jar /app/$APP_JAR --spring.application.name=$APP_NAME $@", "--"]
+ENTRYPOINT ["sh", "-c", "exec java $JVM_OPTS -jar $APP_JAR --spring.application.name=$APP_NAME $@", "--"]
 
 # Example: To pass environment variables, use -e when running the container
 # docker run -e SPRING_PROFILES_ACTIVE=prod -e CUSTOM_ENV=foo -p 8080:8080 <image>
