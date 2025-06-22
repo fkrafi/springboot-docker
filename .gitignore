@@ -32,5 +32,3 @@ node_modules/
 app.jar
 .dockerignore
 
-# GitHub Actions
-.github/
